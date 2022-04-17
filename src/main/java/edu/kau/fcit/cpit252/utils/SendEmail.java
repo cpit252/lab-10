@@ -38,7 +38,7 @@ public class SendEmail {
                     InternetAddress.parse(recipient)
             );
             message.setSubject(subject);
-            message.setText(body);
+            message.setContent(body, "text/html;charset=utf-8");
             Transport.send(message);
 
         } catch (MessagingException e) {

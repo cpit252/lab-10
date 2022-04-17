@@ -18,10 +18,7 @@ public class EmailReceipt {
         String message =  template.getEmailTemplate("Our Neighborhood Bakery", this.getId(), this.getIssueDate(),
                 this.getProducts());
         try {
-            //SendEmail.send(this.subject, message, this.recipient);
-            System.out.println("Subject: " + this.subject);
-            System.out.println("Message: " + message);
-            System.out.println("Recipient: " + this.recipient);
+            SendEmail.send(this.subject, message, this.recipient);
         }
         catch(Exception e){
             System.err.println("Failed to email the receipt: Reason: " + e.getMessage());

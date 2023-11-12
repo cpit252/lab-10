@@ -9,6 +9,7 @@ public class PrintReceipt {
 
     private String subject;
 
+
     @Override
     public void generate() {
         StringBuilder sb = new StringBuilder();

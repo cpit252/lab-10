@@ -4,11 +4,13 @@ package edu.kau.fcit.cpit252.utils;
 
 import edu.kau.fcit.cpit252.shopping.Product;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class EmailTemplate {
 
-    public String getEmailTemplate(String title, String invoiceId, String dateString, List<Product> products) {
+    public String getEmailTemplate(String title, String invoiceId, Date issueDate, List<Product> products) {
         String itemsListHTML = "";
         double total = 0.0;
         for (Product p : products) {
@@ -17,6 +19,10 @@ public class EmailTemplate {
             itemsListHTML += " <td>$" + p.getPrice() + "<td></tr>";
             total += p.getPrice();
         }
+        String datePattern = "dd-MM-yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(datePattern);
+        String formattedDate = simpleDateFormat.format(issueDate);
+
         itemsListHTML += "<tr class=\"total\"><td></td><td>Total" + total + "</td></tr>";
 
         String html = """
@@ -134,7 +140,7 @@ public class EmailTemplate {
                                                                         
                         """ +
                 "<td> Invoice:" + invoiceId + "<br />" +
-                "Created: " + dateString + "<br /></td>"
+                "Created: " + formattedDate + "<br /></td>"
                 +
                 """
                         							</tr>

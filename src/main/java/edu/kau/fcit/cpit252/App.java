@@ -39,7 +39,7 @@ public class App {
         Scanner scannerReceipt = new Scanner(System.in);
         int receiptMethod = scannerReceipt.nextInt();
         scannerReceipt.nextLine();
-        Receipt receipt = null;
+        Receipt receipt;
         if (receiptMethod == 1){
             System.out.println("Please enter the recipient's email address:");
             String recipientEmail = scannerReceipt.nextLine();

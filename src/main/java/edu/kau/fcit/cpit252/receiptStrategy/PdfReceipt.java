@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class PdfReceipt {
+public class PdfReceipt{
 
     private String subject;
     private String path;

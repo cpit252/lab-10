@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public class PayPalPayment  {
+public class PayPalPayment {
     private String transactionId;
     private String email;
     public String merchant;
@@ -16,6 +16,7 @@ public class PayPalPayment  {
         this.date = new Date();
         this.transactionId = UUID.randomUUID().toString();
     }
+
     @Override
     public String toString() {
         String datePattern = "dd-MM-yyyy";
@@ -26,4 +27,6 @@ public class PayPalPayment  {
                 "\n\tMerchant: " + this.merchant +
                 "\n\t" + "Email: " + this.email + "\n");
     }
+
+
 }

@@ -1,47 +1,35 @@
 package edu.kau.fcit.cpit252.utils;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Properties;
+import com.resend.Resend;
+import com.resend.core.exception.ResendException;
+import com.resend.services.emails.model.SendEmailRequest;
+import com.resend.services.emails.model.SendEmailResponse;
+
 
 public class SendEmail {
 
-    public static void send(String subject, String body, String recipient) throws MissingRequiredPropetiesException{
-        final String username = System.getenv("email");
-        final String password = System.getenv("password");
-
-        if (username == "" || password == "") {
-            throw new MissingRequiredPropetiesException("Missing email username and/or password. You need to store two" +
-                    " environment variables named: \"email\" and \"password\" for your email account."  +
+    public static void send(String subject, String body, String recipient) throws MissingRequiredPropetiesException {
+        final String email = System.getenv("email");
+        final String apiKey = System.getenv("apiKey");
+        System.out.println(apiKey);
+        if (email == "" || apiKey == "") {
+            throw new MissingRequiredPropetiesException("Missing email and/or apiKey. You need to store two" +
+                    " environment variables named: \"email\" and \"apiKey\" for your email account." +
                     " Please refer to the following link for more information on how to set environment variables:" +
                     " https://cpit252.gitlab.io/miscellaneous/#environment-variables");
         }
+        Resend resend = new Resend(apiKey);
 
-        Properties prop = new Properties();
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", "587");
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.starttls.enable", "true");
-
-        Session session = Session.getInstance(prop,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+        SendEmailRequest sendEmailRequest = SendEmailRequest.builder()
+                .from(email)
+                .to(recipient)
+                .subject(subject)
+                .html(body)
+                .build();
         try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(recipient)
-            );
-            message.setSubject(subject);
-            message.setContent(body, "text/html;charset=utf-8");
-            Transport.send(message);
-
-        } catch (MessagingException e) {
+            SendEmailResponse data = resend.emails().send(sendEmailRequest);
+            System.out.println(data.getId());
+        } catch (ResendException e) {
             e.printStackTrace();
         }
     }

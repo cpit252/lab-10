@@ -23,7 +23,6 @@ public class CreditCardPayment {
         this.date = new Date();
     }
 
-
     @Override
     public String toString() {
         String datePattern = "dd-MM-yyyy";
